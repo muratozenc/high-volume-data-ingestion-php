@@ -296,5 +296,5 @@ For production, consider:
 
 ## License
 
-MIT
+GPL 3.0
 
