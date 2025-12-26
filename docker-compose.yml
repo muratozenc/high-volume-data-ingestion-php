@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: telemetry-php
+    volumes:
+      - .:/var/www/html
+    working_dir: /var/www/html
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - telemetry-network
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_NAME=telemetry
+      - DB_USER=telemetry_user
+      - DB_PASS=telemetry_pass
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    command: tail -f /dev/null
+
+  mysql:
+    image: mysql:8
+    container_name: telemetry-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: telemetry
+      MYSQL_USER: telemetry_user
+      MYSQL_PASSWORD: telemetry_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - telemetry-network
+    command: --default-authentication-plugin=mysql_native_password
+
+  redis:
+    image: redis:7-alpine
+    container_name: telemetry-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - telemetry-network
+
+networks:
+  telemetry-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+

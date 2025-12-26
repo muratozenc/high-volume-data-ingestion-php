@@ -1,0 +1,40 @@
+{
+    "name": "telemetry/high-volume-ingestion",
+    "description": "High-volume data ingestion API with idempotency and deduplication",
+    "type": "project",
+    "require": {
+        "php": "^8.3",
+        "slim/slim": "^4.12",
+        "slim/psr7": "^1.6",
+        "monolog/monolog": "^3.5",
+        "predis/predis": "^2.2",
+        "vlucas/phpdotenv": "^5.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5",
+        "phpstan/phpstan": "^1.10",
+        "friendsofphp/php-cs-fixer": "^3.48",
+        "phpstan/phpstan-strict-rules": "^1.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Telemetry\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Telemetry\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "stan": "phpstan analyse",
+        "cs-fix": "php-cs-fixer fix",
+        "cs-check": "php-cs-fixer fix --dry-run --diff"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}
+
